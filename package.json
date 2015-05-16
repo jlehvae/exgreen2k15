@@ -1,5 +1,5 @@
 {
-    "name": "starter-node-angular",
+    "name": "exgreen2k15",
     "main": "server.js",
     "dependencies": {
         "express" : "~4.5.1",
