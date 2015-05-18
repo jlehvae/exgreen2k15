@@ -56,7 +56,7 @@ void loop() {
     String url = "https://luminous-fire-393.firebaseio.com/humiditytemperature.json";
 
     String time = "\"time\":\"test\"";
-    String metrics = "\"humidity\":\"" + String(h) + "\", \"temperature\":\"" + String(t) + "\"";
+    String metrics = "\"humidity\":" + String(h) + ", \"temperature\":" + String(t);
 
     String json = "{" + time + "," + metrics + "}";
 
