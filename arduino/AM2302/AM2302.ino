@@ -55,12 +55,36 @@ void loop() {
 
     String url = "https://luminous-fire-393.firebaseio.com/humiditytemperature.json";
 
-    String time = "\"time\":\"test\"";
+    Serial.println("Debug: before getTimeStamp() call");
+    String time = "\"time\":\"" + getTimeStamp() + "\"";
+    //String time = "\"time\":\"test\"";
     String metrics = "\"humidity\":" + String(h) + ", \"temperature\":" + String(t);
 
     String json = "{" + time + "," + metrics + "}";
+    
+    Serial.println(json);
 
     Process p;
     p.runShellCommand("curl -k -X POST " + url + " -d '" + json + "'");
     while(p.running());
 }
+
+
+
+//Black magic with Process
+String getTimeStamp() {
+  Serial.println("Within the getTimeStamp() function");
+  String result;
+  Process time;
+  time.begin("date");
+  time.addParameter("+%d/%m/%y-%T");
+  time.run();
+  
+  while(time.available()>0) {
+    char c = time.read();
+    if (c != '\n')
+      result += c;
+  }
+  return result;
+}
+
