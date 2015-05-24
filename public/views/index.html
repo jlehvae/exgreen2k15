@@ -2,7 +2,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Exactum greenhouse 2015</title>
 
@@ -24,11 +26,27 @@
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
-<p>hello world? {{monitor.hello}}</p>
+<main role="main">
+    <div class="container">
+        <h1>Temparature and humidity monitor</h1>
+        <p>updated {{monitor.updatedAt()}}</p>
 
-<ul>
-    <li ng-repeat="stat in monitor.statistics">{{stat.value}}</li>
-</ul>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Temperature</h2>
+                {{monitor.latestTemperature()}} ºC
+            </div>
+            <div class="col-sm-6">
+                <h2>Humidity</h2>
+                {{monitor.latestHumidity()}} %
+            </div>
+        </div>
+
+        <ul>
+            <li ng-repeat="stat in monitor.statistics">{{stat}}</li>
+        </ul>
+    </div>
+</main>
 
 </body>
 </html>
