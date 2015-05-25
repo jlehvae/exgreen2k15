@@ -7,6 +7,9 @@
 #define DHTPIN 2     // what pin we're connected to
 #define DHTTYPE DHT22   // DHT22  (AM2302), DHT21 (AM2301), DHT 11
 
+unsigned long epoch; // UNIX timestamp for sensor readings
+int sensorPin = A0; // Input pin for the potentiometer
+
 // Connect pin 1 (on the left) of the sensor to +5V
 // NOTE: If using a board with 3.3V logic like an Arduino Due connect pin 1
 // to 3.3V instead of 5V!
@@ -28,12 +31,13 @@ DHT dht(DHTPIN, DHTTYPE);
 void setup() {
     Bridge.begin();
     Serial.begin(9600);
+    setClock();
     dht.begin();
 }
 
 void loop() {
     // Wait a few seconds between measurements.
-    delay(600000);
+    delay(10000);
 
     // Reading temperature or humidity takes about 250 milliseconds!
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -42,6 +46,9 @@ void loop() {
     float t = dht.readTemperature();
     // Read temperature as Fahrenheit
     float f = dht.readTemperature(true);
+    
+    //Read the soil moisture as integer - dry soil = 0, humid soil = 400, sensor in water = 700+
+    int moistureLevel = analogRead(sensorPin); 
 
     // Check if any reads failed and exit early (to try again).
     if (isnan(h) || isnan(t) || isnan(f)) {
@@ -50,15 +57,14 @@ void loop() {
     }
 
     // Compute heat index
-    // Must send in temp in Fahrenheit!
-    float hi = dht.computeHeatIndex(f, h);
+    //float hi = dht.computeHeatIndex(f, h);
 
     String url = "https://luminous-fire-393.firebaseio.com/humiditytemperature.json";
 
-    Serial.println("Debug: before getTimeStamp() call");
-    String time = "\"time\":\"" + getTimeStamp() + "\"";
-    //String time = "\"time\":\"test\"";
-    String metrics = "\"humidity\":" + String(h) + ", \"temperature\":" + String(t);
+    epoch = timeInEpoch();
+    String time = "\"time\":\"" + String(epoch) + "000" + "\"";
+
+    String metrics = "\"humidity\":" + String(h) + ", \"temperature\":" + String(t) + ", \"soil\":" + String(moistureLevel);
 
     String json = "{" + time + "," + metrics + "}";
     
@@ -70,21 +76,35 @@ void loop() {
 }
 
 
+// Synchronize clock using NTP
+void setClock() {  
+  Process p;
+  
+  Serial.println("Setting clock.");
+  
+  // Sync clock with NTP
+  p.runShellCommand("ntpd -nqp 0.openwrt.pool.ntp.org");
+  
+  // Block until clock sync is completed
+  while(p.running());
+}
 
-//Black magic with Process
-String getTimeStamp() {
-  Serial.println("Within the getTimeStamp() function");
-  String result;
-  Process time;
+//Returns a UNIX timestamp 
+unsigned long timeInEpoch() {
+  Process time;                   
+  char epochCharArray[12] = "";
+
+  // Get UNIX timestamp
   time.begin("date");
-  time.addParameter("+%d/%m/%y-%T");
+  time.addParameter("+%s");
   time.run();
   
-  while(time.available()>0) {
-    char c = time.read();
-    if (c != '\n')
-      result += c;
+  // When execution is completed, store in charArray
+  while (time.available() > 0) {
+    time.readString().toCharArray(epochCharArray, 12);
   }
-  return result;
+  
+  // Return long with timestamp
+  return atol(epochCharArray);
 }
 
