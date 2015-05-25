@@ -30,12 +30,14 @@
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
+<nvd3 options="options" data="data"></nvd3>
+
+
 <main role="main">
     <div class="container">
         <h1>Temparature and humidity monitor</h1>
         <p>updated {{monitor.updatedAt()}}</p>
 
-        <nvd3 options="options" data="data"></nvd3>
 
         <div class="row">
             <div class="col-sm-6">
