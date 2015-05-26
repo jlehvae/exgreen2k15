@@ -30,14 +30,16 @@
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
+<div style="width: 900px">
 <nvd3 options="options" data="data"></nvd3>
+<nvd3 options="options2" data="data2"></nvd3>
+</div>
 
 
 <main role="main">
     <div class="container">
         <h1>Temparature and humidity monitor</h1>
         <p>updated {{monitor.updatedAt()}}</p>
-
 
         <div class="row">
             <div class="col-sm-6">
@@ -47,6 +49,10 @@
             <div class="col-sm-6">
                 <h2>Humidity</h2>
                 {{monitor.latestHumidity()}} %
+            </div>
+            <div class="col-sm-6">
+                <h2>Soil moisture</h2>
+                {{monitor.latestSoilmoisture()}}
             </div>
         </div>
 
