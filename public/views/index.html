@@ -34,20 +34,20 @@
 <main role="main">
     <div class="container">
         <h1>Temparature and humidity monitor</h1>
-        <p>updated {{monitor.updatedAt() | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        <p>updated {{monitor.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</p>
 
         <div class="row">
             <div class="col-sm-4">
                 <h2>Temperature</h2>
-                {{monitor.latestTemperature()}} ºC
+                {{monitor.latestTemperature}} ºC
             </div>
             <div class="col-sm-4">
                 <h2>Humidity</h2>
-                {{monitor.latestHumidity()}} %
+                {{monitor.latestHumidity}} %
             </div>
             <div class="col-sm-4">
                 <h2>Soil moisture</h2>
-                {{monitor.latestSoilmoisture()}}
+                {{monitor.latestSoilmoisture}} %
             </div>
         </div>
 
@@ -55,9 +55,6 @@
             <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
         </div>
 
-        <ul>
-            <li ng-repeat="stat in monitor.statistics">{{stat}}</li>
-        </ul>
     </div>
 </main>
 
