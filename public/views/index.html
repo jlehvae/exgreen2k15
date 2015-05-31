@@ -31,11 +31,6 @@
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
-<div style="width: 900px">
-    <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
-</div>
-
-
 <main role="main">
     <div class="container">
         <h1>Temparature and humidity monitor</h1>
@@ -54,6 +49,10 @@
                 <h2>Soil moisture</h2>
                 {{monitor.latestSoilmoisture()}}
             </div>
+        </div>
+
+        <div class="row">
+            <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
         </div>
 
         <ul>
