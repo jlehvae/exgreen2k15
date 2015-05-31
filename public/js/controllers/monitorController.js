@@ -3,10 +3,12 @@ angular.module('app').controller("MonitorController", function ($scope, Firebase
     vm.statistics = FirebaseService.getStatistics();
 
     vm.statistics.$loaded().then(function () {
-        vm.latestTemperature = vm.statistics[vm.statistics.length - 1].temperature;
-        vm.latestHumidity = vm.statistics[vm.statistics.length - 1].humidity;
-        vm.updatedAt = vm.statistics[vm.statistics.length - 1].time;
-        vm.latestSoilmoisture = vm.statistics[vm.statistics.length - 1].soil;
+        var latest = vm.statistics.length - 1;
+
+        vm.latestTemperature = vm.statistics[latest].temperature;
+        vm.latestHumidity = vm.statistics[latest].humidity;
+        vm.updatedAt = vm.statistics[latest].time;
+        vm.latestSoilmoisture = vm.statistics[latest].soil;
     });
 
     vm.soilData = SoilDataService.getSoilData();
