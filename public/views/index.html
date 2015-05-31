@@ -39,15 +39,33 @@
         <div class="row">
             <div class="col-sm-4">
                 <h2>Temperature</h2>
-                {{monitor.latestTemperature}} ºC
+                <div class="c100 p0 big">
+                    <span>{{monitor.latestTemperature}}ºC</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-4">
                 <h2>Humidity</h2>
-                {{monitor.latestHumidity}} %
+                <div ng-class="'c100 p' + monitor.graphHumidity + ' big'">
+                    <span>{{monitor.latestHumidity}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-4">
                 <h2>Soil moisture</h2>
-                {{monitor.latestSoilmoisture}} %
+                <div ng-class="'c100 p' + monitor.latestSoilmoisture + ' big orange'">
+                    <span>{{monitor.latestSoilmoisture}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
