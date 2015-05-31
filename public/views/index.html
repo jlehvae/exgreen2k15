@@ -26,13 +26,13 @@
     <!-- <script src="js/appRoutes.js"></script> -->
     <script src="js/app.js"></script>
     <script src="js/services/FirebaseService.js"></script>
+    <script src="js/services/SoilDataService.js"></script>
     <script src="js/controllers/monitorController.js"></script>
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
 <div style="width: 900px">
-<nvd3 options="options" data="data"></nvd3>
-<nvd3 options="options2" data="data2"></nvd3>
+    <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
 </div>
 
 
