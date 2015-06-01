@@ -1,28 +1,47 @@
 angular.module('app').controller("MonitorController", function ($scope, FirebaseService, SoilDataService, TempHumService) {
     var vm = this; // vm == ViewModel
-    vm.hello = "hello world!";
     vm.statistics = FirebaseService.getStatistics();
 
-    vm.latestTemperature = function () {
-        return vm.statistics[vm.statistics.length - 1].temperature;
+    vm.statistics.$loaded().then(function () {
+        updateScope();
+        vm.statistics.$watch(function() {
+            updateScope();
+        });
+    });
+
+    function updateScope() {
+        var latest = vm.statistics.length - 1;
+
+        vm.updatedAt = vm.statistics[latest].time;
+
+        vm.latestTemperature = vm.statistics[latest].temperature;
+        vm.latestHumidity = vm.statistics[latest].humidity;
+        vm.latestSoilmoisture = vm.statistics[latest].soil;
+
+        vm.soilData = SoilDataService.getSoilData();
+        vm.soilOptions = SoilDataService.options;
+        vm.tempHumData = TempHumService.getTempHumData();
+        vm.tempHumOptions = TempHumService.options;
+
+
+        vm.graphHumidity = removeDot(vm.latestHumidity.toString());
+        vm.graphTemperature = removeDot(vm.latestTemperature.toString());
+        vm.graphMoisture = convertSoilMetricToPercentage(vm.latestSoilmoisture);
+
+        vm.soilData = SoilDataService.getSoilData();
+        vm.soilOptions = SoilDataService.options;
     }
 
-    vm.latestHumidity = function () {
-        return vm.statistics[vm.statistics.length - 1].humidity;
+    function removeDot(stringValue) {
+        if(stringValue.indexOf('.') > -1) {
+            return stringValue.substring(0, stringValue.toString().indexOf('.'));
+        } else {
+            return stringValue;
+        }
     }
 
-    vm.updatedAt = function () {
-        return vm.statistics[vm.statistics.length - 1].time;
+    function convertSoilMetricToPercentage(number) {
+        var percentage = (number / 700) * 100;
+        return removeDot(percentage.toString());
     }
-
-    vm.latestSoilmoisture = function () {
-        return vm.statistics[vm.statistics.length - 1].soil;
-    }
-
-    vm.soilData = SoilDataService.getSoilData();
-    vm.soilOptions = SoilDataService.options;
-    vm.tempHumData = TempHumService.getTempHumData();
-    vm.tempHumOptions = TempHumService.options;
-
-
 });

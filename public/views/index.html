@@ -32,6 +32,7 @@
 </head>
 <body ng-app="app" ng-controller="MonitorController as monitor">
 
+<<<<<<< HEAD
 <div style="width: 900px">
     <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
 </div>
@@ -40,29 +41,50 @@
 </div>
 
 
+=======
+>>>>>>> b1d815358175a4b2c330578670c3df0afc646b87
 <main role="main">
     <div class="container">
         <h1>Temparature and humidity monitor</h1>
-        <p>updated {{monitor.updatedAt()}}</p>
+        <p>updated {{monitor.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</p>
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h2>Temperature</h2>
-                {{monitor.latestTemperature()}} ºC
+                <div ng-class="'c100 p' + monitor.graphTemperature + ' big green'">
+                    <span>{{monitor.graphTemperature}}ºC</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h2>Humidity</h2>
-                {{monitor.latestHumidity()}} %
+                <div ng-class="'c100 p' + monitor.graphHumidity + ' big'">
+                    <span>{{monitor.latestHumidity}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h2>Soil moisture</h2>
-                {{monitor.latestSoilmoisture()}}
+                <div ng-class="'c100 p' + monitor.graphMoisture + ' big orange'">
+                    <span>{{monitor.graphMoisture}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <ul>
-            <li ng-repeat="stat in monitor.statistics">{{stat}}</li>
-        </ul>
+        <div class="row">
+            <nvd3 options="monitor.soilOptions" data="monitor.soilData"></nvd3>
+        </div>
+
     </div>
 </main>
 

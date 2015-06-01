@@ -30,9 +30,9 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
                 }
             },
             yAxis: {
-                axisLabel: 'Soil moisture',
+                axisLabel: 'Soil moisture %',
                 tickFormat: function(d){
-                    return d3.format('.02f')(d);
+                    return d;
                 },
                 axisLabelDistance: 30
             },
@@ -41,7 +41,7 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
             }
         },
         title: {
-            enable: true,
+            enable: false,
             text: 'Soil moisture'
         },
         subtitle: {
