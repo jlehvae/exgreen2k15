@@ -17,10 +17,9 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             ],
             transitionDuration  : 500,
             xAxis: {
-                scale: d3.time.scale(),
                 axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%H:%M:%S')(new Date(d))
+                    return d3.time.format('%x %b %d')(new Date(d))
                 }
             },
             yAxis1: {
