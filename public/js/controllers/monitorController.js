@@ -1,4 +1,4 @@
-angular.module('app').controller("MonitorController", function ($scope, FirebaseService, SoilDataService) {
+angular.module('app').controller("MonitorController", function ($scope, FirebaseService, SoilDataService, TempHumService) {
     var vm = this; // vm == ViewModel
     vm.hello = "hello world!";
     vm.statistics = FirebaseService.getStatistics();
@@ -21,6 +21,8 @@ angular.module('app').controller("MonitorController", function ($scope, Firebase
 
     vm.soilData = SoilDataService.getSoilData();
     vm.soilOptions = SoilDataService.options;
+    vm.tempHumData = TempHumService.getTempHumData();
+    vm.tempHumOptions = TempHumService.options;
 
 
 });
