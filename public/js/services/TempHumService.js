@@ -3,11 +3,12 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
         chart: {
             type: "multiChart",
             height: 450,
-            margin: {
-              "top": 30,
-              "right": 60,
-              "bottom": 50,
-              "left": 70
+            width: 1000,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 40,
+                left: 55
             },
             color: [
               "#1f77b4",
@@ -32,8 +33,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
         }
     };
 
-    this.getTempHumData = function() {
-        var rawData = FirebaseService.getStatistics();
+    this.getTempHumData = function(rawData) {
         return formatTempHumData(rawData);
     };
 

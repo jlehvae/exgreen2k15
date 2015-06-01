@@ -20,7 +20,7 @@ angular.module('app').controller("MonitorController", function ($scope, Firebase
 
         vm.soilData = SoilDataService.getSoilData();
         vm.soilOptions = SoilDataService.options;
-        vm.tempHumData = TempHumService.getTempHumData();
+        vm.tempHumData = TempHumService.getTempHumData(vm.statistics);
         vm.tempHumOptions = TempHumService.options;
 
 
