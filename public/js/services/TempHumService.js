@@ -1,14 +1,15 @@
 angular.module('app').service('TempHumService', function(FirebaseService) {
+
+
     this.options = {
         chart: {
             type: "multiChart",
             height: 450,
-            width: 1000,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 40,
-                left: 55
+            margin: {
+              "top": 30,
+              "right": 60,
+              "bottom": 50,
+              "left": 70
             },
             color: [
               "#1f77b4",
@@ -16,8 +17,10 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             ],
             transitionDuration  : 500,
             xAxis: {
-                tickFormat: function(d){
-                    return d3.format(',f')(d);
+                scale: d3.time.scale(),
+                axisLabel: 'Time',
+                tickFormat: function(d) {
+                    return d3.time.format('%H:%M:%S')(new Date(d))
                 }
             },
             yAxis1: {
@@ -33,7 +36,8 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
         }
     };
 
-    this.getTempHumData = function(rawData) {
+    this.getTempHumData = function() {
+        var rawData = FirebaseService.getStatistics();
         return formatTempHumData(rawData);
     };
 

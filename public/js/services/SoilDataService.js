@@ -26,6 +26,12 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
             xAxis: {
                 axisLabel: 'Time',
                 tickFormat: function(d) {
+                    return d3.time.format('%b %d')(new Date(d))
+                }
+            },
+            xAxis: {
+                axisLabel: 'Time',
+                tickFormat: function(d) {
                     return d3.time.format('%H:%M')(new Date(d))
                 }
             },
