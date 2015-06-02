@@ -8,6 +8,8 @@
         "angular": "latest",
         "angular-route": "latest",
         "angularfire": "latest",
-	    "angular-nvd3": "latest"
+	"angular-nvd3": "latest",
+	"d3": "latest",
+	"nvd3": "latest"
     }
 }
