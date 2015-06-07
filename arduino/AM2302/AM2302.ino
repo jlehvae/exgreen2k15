@@ -21,7 +21,7 @@ void setup() {
 
 void loop() {
     // Wait a few seconds between measurements.
-    delay(10000);
+    delay(300000);
 
     float h = dht.readHumidity();
     // Read temperature as Celsius
@@ -63,8 +63,8 @@ void setClock() {
   // Sync clock with NTP
   p.runShellCommand("ntpd -nqp 0.openwrt.pool.ntp.org");
   
-  // Block until clock sync is completed
-  while(p.running());
+  // Block until clock sync is completed - 1433666585 is unix time for 7.6.2015 08:43:05 GMT
+  while(timeInEpoch() < 1433666585);
 }
 
 //Returns a UNIX timestamp 
