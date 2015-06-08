@@ -1,10 +1,9 @@
-angular.module('app').service('TempHumService', function(FirebaseService) {
-
-
+angular.module('app').service('TempHumService', function() {
     this.options = {
         chart: {
             type: "multiChart",
             height: 450,
+            width: 1000,
             margin: {
               "top": 30,
               "right": 60,
@@ -19,7 +18,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             xAxis: {
                 axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%x %b %d')(new Date(d))
+                    return d3.time.format('%x')(new Date(d))
                 }
             },
             yAxis1: {
@@ -35,8 +34,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
         }
     };
 
-    this.getTempHumData = function() {
-        var rawData = FirebaseService.getStatistics();
+    this.getTempHumData = function(rawData) {
         return formatTempHumData(rawData);
     };
 
@@ -57,7 +55,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
 
         rawData.$loaded().then(function () {
             for (var i = 0; i < rawData.length; i++) {
-                timetemp.push({x: rawData[i].time, y: rawData[i].temperature});
+                timetemp.push({x: parseInt(rawData[i].time), y: rawData[i].temperature});
             }
         });
 
@@ -76,7 +74,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
 
             rawData.$loaded().then(function () {
                 for (var i = 0; i < rawData.length; i++) {
-                    timehum.push({x: rawData[i].time, y: rawData[i].humidity});
+                    timehum.push({x: parseInt(rawData[i].time), y: rawData[i].humidity});
                 }
             });
 
