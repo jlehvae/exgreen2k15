@@ -1,10 +1,9 @@
-angular.module('app').service('TempHumService', function(FirebaseService) {
-
-
+angular.module('app').service('TempHumService', function() {
     this.options = {
         chart: {
             type: "multiChart",
             height: 450,
+            width: 1000,
             margin: {
               "top": 30,
               "right": 60,
@@ -13,13 +12,13 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             },
             color: [
               "#1f77b4",
-              "#ff7f0e"
+              "#bcbd22"
             ],
             transitionDuration  : 500,
             xAxis: {
                 axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%x %b %d')(new Date(d))
+                    return d3.time.format('%x')(new Date(d))
                 }
             },
             yAxis1: {
@@ -27,33 +26,27 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
                     return d3.format(',.1f')(d);
                 },
 		axisLabel: 'Temperature',
-		axisLabelDistance: 30
+		axisLabelDistance: 40
             },
             yAxis2: {
                 tickFormat: function(d){
                     return d3.format(',.1f')(d);
                 },
 		axisLabel: 'Humidity',
-		axisLabelDistance: 30
+		axisLabelDistance: 40
             }
         }
     };
 
-    this.getTempHumData = function() {
-        var rawData = FirebaseService.getStatistics();
-        return formatTempHumData(rawData);
-    };
-
     /* Takes collected sensor data and uses humidity, temperature and time to build json formatted data for a multichart */
-
-    function formatTempHumData(rawData) {
+    this.getTempHumData = function(rawData) {
         var formattedData = [];
         formattedData.push(formatTempData(rawData));
         formattedData.push(formatHumData(rawData));
 
         return formattedData;
+    };
 
-    }
 
     //Formats time and temperature
     function formatTempData(rawData) {
@@ -61,7 +54,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
 
         rawData.$loaded().then(function () {
             for (var i = 0; i < rawData.length; i++) {
-                timetemp.push({x: rawData[i].time, y: rawData[i].temperature});
+                timetemp.push({x: parseInt(rawData[i].time), y: rawData[i].temperature});
             }
         });
 
@@ -80,7 +73,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
 
             rawData.$loaded().then(function () {
                 for (var i = 0; i < rawData.length; i++) {
-                    timehum.push({x: rawData[i].time, y: rawData[i].humidity});
+                    timehum.push({x: parseInt(rawData[i].time), y: rawData[i].humidity});
                 }
             });
 
@@ -88,7 +81,7 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             return {
                     key: 'Humidity', //key  - the name of the series.
                     values: timehum,      //values - represents the array of {x,y} data points
-                    type: 'bar',  //color - optional: choose your own line color.
+                    type: 'line',  //color - optional: choose your own line color.
                     yAxis: 2
                 }
         }

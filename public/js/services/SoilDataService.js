@@ -1,4 +1,4 @@
-angular.module('app').service('SoilDataService', function(FirebaseService) {
+angular.module('app').service('SoilDataService', function() {
     this.options = {
         chart: {
             type: 'lineChart',
@@ -26,7 +26,7 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
             xAxis: {
                 axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%x %b %d')(new Date(d))
+                    return d3.time.format('%x')(new Date(d))
                 }
             },
             yAxis: {
@@ -36,6 +36,7 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
                 },
                 axisLabelDistance: 30
             },
+
             callback: function(chart){
                 //console.log("!!! lineChart callback !!!");
             }
@@ -64,17 +65,12 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
 
     /* Takes collected sensor data and uses soil moisture and time to build json formatted data for a line chart */
 
-    this.getSoilData = function() {
-        var rawData = FirebaseService.getStatistics();
-        return formatSoilData(rawData);
-    };
-
-    function formatSoilData(rawData) {
+    this.getSoilData = function(rawData) {
         var timesoil = [];
 
         rawData.$loaded().then(function () {
             for (var i = 0; i < rawData.length; i++) {
-                timesoil.push({x: rawData[i].time, y: rawData[i].soil});
+                timesoil.push({x: parseInt(rawData[i].time), y: rawData[i].soil});
             }
         });
 
@@ -86,5 +82,7 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
                 color: '#ff7f0e'  //color - optional: choose your own line color.
             }
         ];
+
     }
 });
+

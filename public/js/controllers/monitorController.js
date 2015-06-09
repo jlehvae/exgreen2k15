@@ -11,28 +11,27 @@ angular.module('app').controller("MonitorController", function ($scope, Firebase
 
     function updateScope() {
         var latest = vm.statistics.length - 1;
+        var latestMetric = vm.statistics[latest];
 
-        vm.updatedAt = vm.statistics[latest].time;
+        // latest values
+        vm.updatedAt = latestMetric.time;
+        vm.latestTemperature = latestMetric.temperature;
+        vm.latestHumidity = latestMetric.humidity;
+        vm.latestSoilmoisture = latestMetric.soil;
 
-        vm.latestTemperature = vm.statistics[latest].temperature;
-        vm.latestHumidity = vm.statistics[latest].humidity;
-        vm.latestSoilmoisture = vm.statistics[latest].soil;
+        vm.graphHumidity = removeDot(vm.latestHumidity);
+        vm.graphTemperature = removeDot(vm.latestTemperature);
+        vm.graphMoisture = convertSoilMetricToPercentage(vm.latestSoilmoisture);
 
-        vm.soilData = SoilDataService.getSoilData();
+        // D3 charts
+        vm.soilData = SoilDataService.getSoilData(vm.statistics);
         vm.soilOptions = SoilDataService.options;
         vm.tempHumData = TempHumService.getTempHumData(vm.statistics);
         vm.tempHumOptions = TempHumService.options;
-
-
-        vm.graphHumidity = removeDot(vm.latestHumidity.toString());
-        vm.graphTemperature = removeDot(vm.latestTemperature.toString());
-        vm.graphMoisture = convertSoilMetricToPercentage(vm.latestSoilmoisture);
-
-        vm.soilData = SoilDataService.getSoilData();
-        vm.soilOptions = SoilDataService.options;
     }
 
-    function removeDot(stringValue) {
+    function removeDot(value) {
+        var stringValue = value.toString();
         if(stringValue.indexOf('.') > -1) {
             return stringValue.substring(0, stringValue.toString().indexOf('.'));
         } else {
