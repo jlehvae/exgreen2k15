@@ -18,7 +18,7 @@ angular.module('app').service('TempHumService', function() {
             xAxis: {
                 axisLabel: 'Time',
                 tickFormat: function(d) {
-                    return d3.time.format('%x')(new Date(d))
+                    return d3.time.format('%H:%M')(new Date(d))
                 }
             },
             yAxis1: {
