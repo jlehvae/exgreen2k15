@@ -34,20 +34,15 @@ angular.module('app').service('TempHumService', function() {
         }
     };
 
-    this.getTempHumData = function(rawData) {
-        return formatTempHumData(rawData);
-    };
-
     /* Takes collected sensor data and uses humidity, temperature and time to build json formatted data for a multichart */
-
-    function formatTempHumData(rawData) {
+    this.getTempHumData = function(rawData) {
         var formattedData = [];
         formattedData.push(formatTempData(rawData));
         formattedData.push(formatHumData(rawData));
 
         return formattedData;
+    };
 
-    }
 
     //Formats time and temperature
     function formatTempData(rawData) {

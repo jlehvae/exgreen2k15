@@ -66,10 +66,6 @@ angular.module('app').service('SoilDataService', function() {
     /* Takes collected sensor data and uses soil moisture and time to build json formatted data for a line chart */
 
     this.getSoilData = function(rawData) {
-        return formatSoilData(rawData);
-    };
-
-    function formatSoilData(rawData) {
         var timesoil = [];
 
         rawData.$loaded().then(function () {
@@ -86,5 +82,5 @@ angular.module('app').service('SoilDataService', function() {
                 color: '#ff7f0e'  //color - optional: choose your own line color.
             }
         ];
-    }
+    };
 });
