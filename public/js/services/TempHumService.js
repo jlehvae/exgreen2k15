@@ -25,12 +25,16 @@ angular.module('app').service('TempHumService', function(FirebaseService) {
             yAxis1: {
                 tickFormat: function(d){
                     return d3.format(',.1f')(d);
-                }
+                },
+		axisLabel: 'Temperature',
+		axisLabelDistance: 30
             },
             yAxis2: {
                 tickFormat: function(d){
                     return d3.format(',.1f')(d);
-                }
+                },
+		axisLabel: 'Humidity',
+		axisLabelDistance: 30
             }
         }
     };

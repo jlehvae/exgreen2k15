@@ -30,7 +30,7 @@ angular.module('app').service('SoilDataService', function(FirebaseService) {
                 }
             },
             yAxis: {
-                axisLabel: 'Soil moisture %',
+                axisLabel: 'Soil moisture',
                 tickFormat: function(d){
                     return d;
                 },
